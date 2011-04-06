@@ -294,19 +294,22 @@ webview.methods = {
 
     -- Zoom functions
     zoom_in = function (view, w, step, full_zoom)
-        view:set_property("full-content-zoom", not not full_zoom)
+        -- *qwertyboy* Don't lose full content zoom settings
+        --view:set_property("full-content-zoom", not not full_zoom)
         step = step or globals.zoom_step or 0.1
         view:set_property("zoom-level", view:get_property("zoom-level") + step)
     end,
 
     zoom_out = function (view, w, step, full_zoom)
-        view:set_property("full-content-zoom", not not full_zoom)
+        -- *qwertyboy* Don't lose full content zoom settings
+        --view:set_property("full-content-zoom", not not full_zoom)
         step = step or globals.zoom_step or 0.1
         view:set_property("zoom-level", math.max(0.01, view:get_property("zoom-level") - step))
     end,
 
     zoom_set = function (view, w, level, full_zoom)
-        view:set_property("full-content-zoom", not not full_zoom)
+        -- *qwertyboy* Don't lose full content zoom settings
+        --view:set_property("full-content-zoom", not not full_zoom)
         view:set_property("zoom-level", level or 1.0)
     end,
 

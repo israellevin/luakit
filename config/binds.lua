@@ -137,9 +137,16 @@ add_binds("normal", {
     key({},          "$",           function (w) w:scroll_horiz("100%") end),
     key({},          "0",           function (w, m) if not m.count then w:scroll_horiz(0) else return false end end),
 
+    -- *qwertyboy* Extras
+    key({},          "t",           function (w) if true == w.sbar.hidden then w.sbar.ebox:show() w.sbar.hidden = false else w.sbar.ebox:hide() w.sbar.hidden = true end end),
+    key({"Control"}, "p",           function (w) domain_props.all["enable-plugins"] = true; w:reload() end),
+    key({"Control"}, "P",           function (w) domain_props.all["enable-plugins"] = false; w:reload() end),
+    key({},          "v",           function (w)    local uri = (w:get_current() or {}).uri if uri then luakit.spawn("/root/scripts/webvidplay.sh '" .. uri .. "'") end end),
+
     -- Zooming
     key({},          "+",           function (w, m)    w:zoom_in(zoom_step  * m.count)       end, {count=1}),
     key({},          "-",           function (w, m)    w:zoom_out(zoom_step * m.count)       end, {count=1}),
+    key({},          "*",           function (w, m)    w:set("full-content-zoom", not w:get("full-content-zoom"))  end),
     key({},          "=",           function (w, m)    w:zoom_set() end),
     buf("^zz$",                     function (w, b, m) w:zoom_set() end),
     buf("^z[iI]$",                  function (w, b, m) w:zoom_in(zoom_step  * m.count, b == "zI") end, {count=1}),
@@ -181,6 +188,7 @@ add_binds("normal", {
     key({},          "H",           function (w, m) w:back(m.count)    end),
     key({},          "L",           function (w, m) w:forward(m.count) end),
     key({},          "b",           function (w, m) w:back(m.count)    end),
+    key({},          "m",           function (w, m) w:forward(m.count)    end),
     key({},          "XF86Back",    function (w, m) w:back(m.count)    end),
     key({},          "XF86Forward", function (w, m) w:forward(m.count) end),
     key({"Control"}, "o",           function (w, m) w:back(m.count)    end),
@@ -196,7 +204,7 @@ add_binds("normal", {
 
     key({"Control"}, "t",           function (w)    w:new_tab(homepage) end),
     key({"Control"}, "w",           function (w)    w:close_tab()       end),
-    key({},          "d",           function (w, m) for i=1,m.count do w:close_tab()      end end, {count=1}),
+    key({},          "D",           function (w, m) for i=1,m.count do w:close_tab()      end end, {count=1}),
 
     key({},          "<",           function (w, m) w.tabs:reorder(w:get_current(), w.tabs:current() - m.count) end, {count=1}),
     key({},          ">",           function (w, m) w.tabs:reorder(w:get_current(), (w.tabs:current() + m.count) % w.tabs:count()) end, {count=1}),
@@ -204,7 +212,7 @@ add_binds("normal", {
     key({"Mod1"},    "Page_Down",   function (w, m) w.tabs:reorder(w:get_current(), (w.tabs:current() + m.count) % w.tabs:count()) end, {count=1}),
 
     buf("^gH$",                     function (w, b, m) for i=1,m.count do w:new_tab(homepage) end end, {count=1}),
-    buf("^gh$",                     function (w)       w:navigate(homepage) end),
+    buf("^gh$",                     function (w)       w:navigate("http://google.com/ig") end),
 
     -- Open tab from current tab history
     buf("^gy$",                     function (w) w:new_tab(w:get_current().history or "") end),
@@ -219,7 +227,7 @@ add_binds("normal", {
     -- Window
     buf("^ZZ$",                     function (w) w:save_session() w:close_win() end),
     buf("^ZQ$",                     function (w) w:close_win() end),
-    buf("^D$",                      function (w) w:close_win() end),
+    buf("^d$",                      function (w) w:close_win() end),
 
     -- Enter passthrough mode
     key({"Control"}, "z",           function (w) w:set_mode("passthrough") end),
@@ -227,6 +235,24 @@ add_binds("normal", {
 
 add_binds("insert", {
     key({"Control"}, "z",           function (w) w:set_mode("passthrough") end),
+
+    -- *qwertyboy* External editor
+    key({"Control"},  "e",       function (w)
+        print("!")
+        local s = w:eval_js("document.activeElement.value")
+        local n = "/root/" .. os.time()
+        local f = io.open(n, "w")
+        f:write(s)
+        f:flush()
+        f:close()
+        luakit.spawn_sync("urxvt -e vi -c \"set spell\" " .. n)
+        f = io.open(n, "r")
+        s = f:read("*all")
+        f:close()
+        w:set_mode("insert")
+        w:eval_js("document.activeElement.value = '" .. s:sub(0, -2):gsub("\n", "\\n") .. "'")
+    end),
+
 })
 
 add_binds({"command", "search"}, {
@@ -277,7 +303,8 @@ add_cmds({
     cmd("t[abopen]",            function (w, a) w:new_tab(w:search_open(a)) end),
     cmd("w[inopen]",            function (w, a) window.new{w:search_open(a)} end),
     cmd({"javascript",   "js"}, function (w, a) w:eval_js(a, "javascript") end),
-
+    cmd({"destroy",   "dest"}, function (w) w:eval_js("var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://erkie.github.com/asteroids.min.js';void(0);") w:set_mode("insert") end),
+    cmd({"katamari",   "dest"}, function (w) w:eval_js("var i,s,ss=['http://kathack.com/js/kh.js','http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js'];for(i=0;i!=ss.length;i++){s=document.createElement('script');s.src=ss[i];document.body.appendChild(s);}void(0);") end),
     cmd("q[uit]",               function (w, a, o) w:close_win(o.bang) end),
     cmd({"viewsource",  "vs" }, function (w, a, o) w:toggle_source(not o.bang and true or nil) end),
     cmd({"writequit", "wq"},    function (w, a, o) w:save_session() w:close_win(o.bang) end),

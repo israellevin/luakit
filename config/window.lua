@@ -449,7 +449,16 @@ window.methods = {
         local loaded = w.sbar.l.loaded
         if not view:loading() or p == 1 then
             loaded:hide()
+
+            -- *qwertyboy* Hide sbar when loading ends
+            w.sbar.ebox:hide()
+            w.sbar.hidden = true
         else
+
+            -- *qwertyboy* hide prompt and show sbar when loading begins
+            w.ibar.prompt:hide()
+            w.sbar.ebox:show()
+            w.sbar.hidden = false
             loaded:show()
             local text = string.format("(%d%%)", p * 100)
             if loaded.text ~= text then loaded.text = text end
@@ -468,6 +477,12 @@ window.methods = {
             end
             if scroll.text ~= val then scroll.text = val end
             scroll:show()
+
+            -- *qwertyboy* Add scroll text to window title
+            local title = view:get_property("title")
+            local uri = view.uri
+            w.win.title = w.sbar.r.scroll.text .. " - " .. (title or "luakit") .. " - " .. (uri or "about:blank")
+
         else
             scroll:hide()
         end
@@ -608,6 +623,10 @@ window.methods = {
         local index = w.tabs:indexof(view)
         if index ~= 1 then tab.after = w.tabs:atindex(index-1) end
         table.insert(w.closed_tabs, tab)
+
+        -- *qwertyboy* Without this, close tab segfaults luakit when the view is visible
+        w.tabs:remove(view)
+
         view:destroy()
         w:update_tab_count()
         w:update_tablist()
