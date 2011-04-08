@@ -40,6 +40,7 @@ require "binds"
 
 -- Add sqlite3 cookiejar
 require "cookies"
+require "cookies_filter"
 
 -- Add uzbl-like form filling
 require "formfiller"

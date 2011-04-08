@@ -108,16 +108,23 @@ capi.soup.add_signal("cookie-changed", function (old, new)
             e(new.name), -- WHERE = name
             e(new.path))) -- WHERE = path
 
-        -- Insert new cookie
-        db:exec(string.format(query_insert,
-            e(new.name), -- name
-            e(new.value), -- value
-            e(new.domain), -- host
-            e(new.path), -- path
-            new.expires or -1, -- expiry
-            micro(), -- lastAccessed
-            new.secure and 1 or 0, -- isSecure
-            new.http_only and 1 or 0)) -- isHttpOnly
+        -- Check if cookie should be inserted into the database
+        if _M.emit_signal("accept-cookie", new) ~= false then
+            -- Insert new cookie
+            db:exec(string.format(query_insert,
+                e(new.name), -- name
+                e(new.value), -- value
+                e(new.domain), -- host
+                e(new.path), -- path
+                new.expires or -1, -- expiry
+                micro(), -- lastAccessed
+                new.secure and 1 or 0, -- isSecure
+                new.http_only and 1 or 0)) -- isHttpOnly
+        else
+            -- Expire cookie and remove from cookie jar
+            new.expires = 0
+            capi.soup.add_cookies{new}
+        end
 
     -- Expire old cookie
     elseif old then
