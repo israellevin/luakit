@@ -202,7 +202,7 @@ luaH_cookiejar_add_cookies(lua_State *L)
 
         /* insert cookies */
         for (GSList *p = cookies; p; p = g_slist_next(p))
-            soup_cookie_jar_add_cookie(sj, soup_cookie_copy(p->data));
+            soup_cookie_jar_add_cookie(sj, p->data);
 
         g_slist_free(cookies);
         j->silent = FALSE;
@@ -225,7 +225,7 @@ request_started(SoupSessionFeature *feature, SoupSession *session,
     gchar *str = soup_uri_to_string(uri, FALSE);
     lua_pushstring(L, str);
     g_free(str);
-    signal_object_emit(L, soupconf.signals, "request-started", 1, 0);
+    signal_object_emit(L, soup_class.signals, "request-started", 1, 0);
 
     /* generate cookie header */
     gchar *header = soup_cookie_jar_get_cookies(sj, uri, TRUE);
@@ -272,7 +272,7 @@ changed(SoupCookieJar *sj, SoupCookie *old, SoupCookie *new)
     else
         lua_pushnil(L);
 
-    signal_object_emit(L, soupconf.signals, "cookie-changed", 2, 0);
+    signal_object_emit(L, soup_class.signals, "cookie-changed", 2, 0);
 }
 
 static void
