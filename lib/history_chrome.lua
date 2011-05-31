@@ -250,10 +250,10 @@ local cmd = lousy.bind.cmd
 add_cmds({
     cmd("history", function (w, arg)
         if arg then
-            w:new_tab(string.format("luakit://history/?q=%s",
+            w:navigate(string.format("luakit://history/?q=%s",
                 capi.luakit.uri_encode(arg)))
         else
-            w:new_tab("luakit://history")
+            w:navigate("luakit://history")
         end
     end),
 })

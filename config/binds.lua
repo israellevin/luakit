@@ -187,10 +187,11 @@ add_binds("normal", {
     buf("^O$",                      function (w, c) w:enter_cmd(":open "    .. (w:get_current().uri or "")) end),
     buf("^T$",                      function (w, c) w:enter_cmd(":tabopen " .. (w:get_current().uri or "")) end),
     buf("^W$",                      function (w, c) w:enter_cmd(":winopen " .. (w:get_current().uri or "")) end),
+    buf("^H$",                      function (w, c) w:enter_cmd(":history ")    end),
     buf("^,g$",                     function (w, c) w:enter_cmd(":open google ") end),
 
     -- History
-    key({},          "H",           function (w, m) w:back(m.count)    end),
+    --key({},          "H",           function (w, m) w:back(m.count)    end),
     key({},          "L",           function (w, m) w:forward(m.count) end),
     key({},          "b",           function (w, m) w:back(m.count)    end),
     key({},          "m",           function (w, m) w:forward(m.count)    end),
@@ -250,7 +251,7 @@ add_binds("insert", {
         f:write(s)
         f:flush()
         f:close()
-        luakit.spawn_sync("urxvt -e vi -c \"set spell\" " .. n)
+        luakit.spawn_sync("rxvt -e vi -c \"set spell\" " .. n)
         f = io.open(n, "r")
         s = f:read("*all")
         f:close()
