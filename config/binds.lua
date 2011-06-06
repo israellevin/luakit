@@ -310,7 +310,7 @@ add_cmds({
     cmd("w[inopen]",            function (w, a) window.new{w:search_open(a)} end),
     cmd({"javascript",   "js"}, function (w, a) w:eval_js(a, "javascript") end),
     cmd({"destroy",   "dest"}, function (w) w:eval_js("var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://erkie.github.com/asteroids.min.js';void(0);") w:set_mode("insert") end),
-    cmd({"katamari",   "dest"}, function (w) w:eval_js("var i,s,ss=['http://kathack.com/js/kh.js','http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js'];for(i=0;i!=ss.length;i++){s=document.createElement('script');s.src=ss[i];document.body.appendChild(s);}void(0);") end),
+    cmd({"katamari",   "kat"}, function (w) w:eval_js("var i,s,ss=['http://kathack.com/js/kh.js','http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js'];for(i=0;i!=ss.length;i++){s=document.createElement('script');s.src=ss[i];document.body.appendChild(s);}void(0);") end),
     cmd("q[uit]",               function (w, a, o) w:close_win(o.bang) end),
     cmd({"viewsource",  "vs" }, function (w, a, o) w:toggle_source(not o.bang and true or nil) end),
     cmd({"writequit", "wq"},    function (w, a, o) w:save_session() w:close_win(o.bang) end),
