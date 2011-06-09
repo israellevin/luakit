@@ -63,9 +63,12 @@ add_binds("all", {
         -- Ignore button 2 clicks in form fields
         if not m.context.editable then
             -- Open hovered uri in new tab
+            -- *qwertyboy* Better open in new windows and push them to background with xdotool
             local uri = w:get_current().hovered_uri
             if uri then
-                w:new_tab(uri, false)
+                --w:new_tab(uri, false)
+                window.new{uri}
+                luakit.spawn("xdotool key --delay 200 super+Return")
             else -- Open selection in current tab
                 uri = luakit.get_selection()
                 if uri then w:navigate(w:search_open(uri)) end
