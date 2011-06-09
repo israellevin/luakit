@@ -17,6 +17,10 @@ local add_binds, new_mode = add_binds, new_mode
 local theme = theme
 local capi = { luakit = luakit, timer = timer }
 
+-- *qwertyboy* We need this to open new windows
+local window = window
+local luakit = luakit
+
 --- Provides link following.
 module("follow")
 
@@ -44,7 +48,7 @@ module("follow")
 --  may return <code>"form-active"</code> or <code>"root-active"</code>.
 -- @type table
 -- @name follow
-sort_labels = true
+sort_labels = false
 ignore_delay = 250
 reverse_labels = true
 
@@ -150,6 +154,28 @@ local follow_js = [=[
 // Global wrapper in order to not disturb main site JS.
 window.follow = (function () {
     // Private members.
+
+    // *qwertyboy* Alternate charset
+    var charset = "jfkdls;a";
+    var charsetregex = new RegExp("^[" + charset + "]*$");
+    function intToLabel(n, length) {
+      var label = '';
+      do {
+          label = charset.charAt(n % charset.length) + label;
+          n = Math.floor(n / charset.length);
+      } while(n);
+      while(label.length < length) label = charset[0] + label;
+      return label;
+    }
+    function labelToInt(label) {
+      var n = 0;
+      var i;
+      for(i = 0; i < label.length; ++i) {
+          n *= charset.length;
+          n += charset.indexOf(label[i]);
+      }
+      return n;
+    }
 
     // Tests if the given element is a "frame".
     // We select body tags instead of frames to prevent cross-domain javascript requests.
@@ -292,8 +318,8 @@ window.follow = (function () {
 
         // Sets the ID of the hint (the content of the tick label).
         this.setId = function (id) {
-            this.id = id;
-            this.tick.textContent = id;
+            this.id = intToLabel(id);
+            this.tick.textContent = intToLabel(id);
         };
 
         // Changes the appearance of the hint to indicate it is focused.
@@ -315,7 +341,8 @@ window.follow = (function () {
         // Tests if the hint's text matches the given string.
         this.matches = function (str) {
             var text = getText(this.element).toLowerCase();
-            return text.indexOf(str) !== -1;
+            // *qwertyboy* Check for id here
+            return (text.indexOf(str) !== -1) || (this.id.indexOf(str) == 0);
         };
     }
 
@@ -405,9 +432,10 @@ window.follow = (function () {
                     }
                 });
                 // check ID
-                if (hint.id.substr(0, id.length) !== id) {
-                    matches = false;
-                }
+                // *qwertyboy* implemented in tick.matchs function
+                //if (hint.id.substr(0, id.length) !== id) {
+                //    matches = false;
+                //}
                 // update visibility
                 if (matches) {
                     hint.show();
@@ -563,7 +591,7 @@ add_binds("normal", {
     end),
 
     -- Open new tab (optionally [count] times)
-    buf("^F$", function (w,b,m)
+    buf("^mt$", function (w,b,m)
         local name
         if (m.count or 0) > 1 then name = "open "..m.count.." tabs(s)" end
         w:start_follow("uri", name or "open tab", function (uri, s)
@@ -590,9 +618,11 @@ add_binds("normal", {
     end),
 
     -- Follow a sequence of <CR> delimited hints in background tabs.
+    -- *qwertyboy* stacked windows, really.
     buf("^;F$", function (w,b,m)
         w:start_follow("uri", "multi tab", function (uri, s)
-            w:new_tab(uri, false)
+            luakit.spawn("luakit " ..uri)
+            luakit.spawn("xdotool key --delay 200 super+Return")
             w:set_mode("follow")
         end)
     end),
@@ -646,9 +676,11 @@ add_binds("normal", {
     end),
 
     -- Open link in new window
-    buf("^;w$", function (w,b,m)
+    -- *qwertyboy* as a new process and push it to the stack
+    buf("^F$", function (w,b,m)
         w:start_follow("uri", "open window", function (uri)
-            window.new{uri}
+            luakit.spawn("luakit " ..uri)
+            luakit.spawn("xdotool key --delay 200 super+Return")
             return "root-active"
         end)
     end),
@@ -957,4 +989,3 @@ new_mode("follow", {
 })
 
 -- vim: et:sw=4:ts=8:sts=4:tw=80
-

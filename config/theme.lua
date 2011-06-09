@@ -66,17 +66,19 @@ theme.trust_fg          = "#050"
 theme.notrust_fg        = "#F00"
 
 theme.follow = {
-    focus_color     = "#ff0000",
-    normal_color    = "#ffff99",
-    opacity         = 0.5,
-    border          = "1px dotted #000000",
-    hint_fg         = "#ffff99",
-    hint_bg         = "#000088",
-    hint_border     = "1px dashed #000000",
-    hint_opacity    = 0.6,
-    hint_font       = "16px monospace bold",
-    vert_offset     = 10,
-    horiz_offset    = 0,
+    focus_bg      = "#00ff00";
+    normal_bg     = "#ffff99";
+    opacity       = 0.5;
+    border        = "1px dotted #000000";
+    frame_border  = "2px solid #880000";
+    tick_frame_bg = "#880000";
+    tick_fg       = "#ffff99";
+    tick_bg       = "#000088";
+    tick_border   = "2px dashed #000000";
+    tick_opacity  = 0.5;
+    tick_font     = "16px monospace bold";
+    vert_offset   = 10;
+    horiz_offset  = 0;
 }
 
 return theme
