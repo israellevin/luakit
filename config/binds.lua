@@ -191,7 +191,7 @@ add_binds("normal", {
     buf("^,g$",                     function (w, c) w:enter_cmd(":open google ") end),
 
     -- History
-    --key({},          "H",           function (w, m) w:back(m.count)    end),
+    key({},          "H",           function (w, m) w:back(m.count)    end),
     key({},          "L",           function (w, m) w:forward(m.count) end),
     key({},          "b",           function (w, m) w:back(m.count)    end),
     key({},          "m",           function (w, m) w:forward(m.count)    end),

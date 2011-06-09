@@ -617,10 +617,6 @@ window.methods = {
         local index = w.tabs:indexof(view)
         if index ~= 1 then tab.after = w.tabs:atindex(index-1) end
         table.insert(w.closed_tabs, tab)
-
-        -- *qwertyboy* Without this, close tab segfaults luakit when the view is visible
-        w.tabs:remove(view)
-
         view:destroy()
         w:update_tab_count()
         w:update_tablist()

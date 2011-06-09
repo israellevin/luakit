@@ -914,8 +914,7 @@ webview_set_history(lua_State *L, WebKitWebView *view, gint idx)
 
     /* create new back-forward history list */
     bflist = webkit_web_back_forward_list_new_with_web_view(view);
-    // *qwertyboy* the following line does not compile on my debian sid
-    //webkit_web_back_forward_list_clear(bflist);
+    webkit_web_back_forward_list_clear(bflist);
 
     /* get position of current history item */
     lua_pushliteral(L, "index");
