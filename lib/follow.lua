@@ -156,7 +156,7 @@ window.follow = (function () {
     // Private members.
 
     // *qwertyboy* Alternate charset
-    var charset = "jfkdls;a";
+    var charset = "jfkdurienvmc";
     var charsetregex = new RegExp("^[" + charset + "]*$");
     function intToLabel(n, length) {
       var label = '';
@@ -967,7 +967,7 @@ new_mode("follow", {
     changed = function (w, text)
         if not is_ready(w) then return w:set_mode() end
         local state = w.follow_state or {}
-        local filter, id = parse_input(text)
+        local filter, id = text, text --parse_input(text)
         local active_hints = 0
         local eval_frame
         for _, f in ipairs(w:get_current().frames) do
