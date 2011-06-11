@@ -18,8 +18,7 @@ local add_binds, new_mode = add_binds, new_mode
 local theme = theme
 local capi = { luakit = luakit, timer = timer }
 
--- *qwertyboy* We need this to open new windows
-local window = window
+-- *qwertyboy* We need this to open new windows as new process
 local luakit = luakit
 
 --- Provides link following.
