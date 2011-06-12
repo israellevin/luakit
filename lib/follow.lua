@@ -155,8 +155,8 @@ local follow_js = [=[
 window.follow = (function () {
     // Private members.
 
-    // *qwertyboy* Alternate charset
-    var charset = "jfkdurienvmc";
+    // *qwertyboy* Alternative charset
+    var charset = "jfkdhg";
     var charsetregex = new RegExp("^[" + charset + "]*$");
     function intToLabel(n, length) {
       var label = '';
