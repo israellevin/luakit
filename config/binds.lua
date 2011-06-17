@@ -247,19 +247,18 @@ add_binds("insert", {
 
     -- *qwertyboy* External editor
     key({"Control"},  "e",       function (w)
-        print("!")
         local s = w:eval_js("document.activeElement.value")
         local n = "/root/" .. os.time()
         local f = io.open(n, "w")
         f:write(s)
         f:flush()
         f:close()
-        luakit.spawn_sync("rxvt -e vi -c \"set spell\" " .. n)
+        luakit.spawn_sync("urxvt -e vi -c \"set spell\" \"" .. n .. "\"")
         f = io.open(n, "r")
         s = f:read("*all")
         f:close()
-        w:set_mode("insert")
-        w:eval_js("document.activeElement.value = '" .. s:sub(0, -2):gsub("\n", "\\n") .. "'")
+        s = s:sub(0, -2):gsub("\n", "\\n"):gsub("'", "\\'")
+        w:eval_js("document.activeElement.value = '" .. s .. "'")
     end),
 
 })

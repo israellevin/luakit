@@ -2,21 +2,20 @@
 -- luakit configuration file, more information at http://luakit.org/ --
 -----------------------------------------------------------------------
 
--- *qwertyboy* I don't like this single instance shit
---if unique then
---    unique.new("org.luakit")
---    -- Check for a running luakit instance
---    if unique.is_running() then
---        if uris[1] then
---            for _, uri in ipairs(uris) do
---                unique.send_message("tabopen " .. uri)
---            end
---        else
---            unique.send_message("winopen")
---        end
---        luakit.quit()
---    end
---end
+if unique then
+    unique.new("org.luakit")
+    -- Check for a running luakit instance
+    if unique.is_running() then
+        if uris[1] then
+            for _, uri in ipairs(uris) do
+                unique.send_message("tabopen " .. uri)
+            end
+        else
+            unique.send_message("winopen")
+        end
+        luakit.quit()
+    end
+end
 
 -- Load library of useful functions for luakit
 require "lousy"
