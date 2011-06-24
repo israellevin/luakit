@@ -50,16 +50,16 @@ soup.set_property("accept-policy", cookie_policy.always)
 -- it to avoid collisions with lua's string.format characters.
 -- See: http://www.lua.org/manual/5.1/manual.html#pdf-string.format
 search_engines = {
-    sl          = "http://duckduckgo.com/?q=! %s",
-    d           = "http://dictionary.reference.com/browse/%s",
-    s           = "http://duckduckgo.com/?q=%s",
-    w           = "http://en.wikipedia.org/wiki/Special:Search?search=%s",
     g           = "http://google.com/search?q=%s",
     l           = "http://google.com/search?q=%s&btnI=I'm+Feeling+Lucky",
+    w           = "http://en.wikipedia.org/wiki/Special:Search?search=%s",
+    d           = "http://dictionary.reference.com/browse/%s",
+    s           = "http://duckduckgo.com/?q=%s",
+    sl          = "http://duckduckgo.com/?q=! %s",
 }
 
 -- Set google as fallback search engine
-search_engines.default = search_engines.sl
+search_engines.default = search_engines.l
 -- Use this instead to disable auto-searching
 --search_engines.default = "%s"
 
