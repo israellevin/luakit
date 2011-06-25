@@ -248,54 +248,40 @@ add_binds("insert", {
     -- *qwertyboy* External editor
     key({"Control"},  "e",       function (w)
         local dir = "/root/"
-        local marker = "Edited in Vim - file: "
-        local file = os.time()
+        local marker = "luakit_extedit_"
+        local time = os.time()
+        local file = dir .. time
         local function editor_callback(exit_reason, exit_status)
-            if exit_reason == "exit" then
-                local n = w:eval_js(string.format([=[
-                    var e = document.getElementsByTagName('TEXTAREA');
-                    var r = 'false';
-                    for(i in e){
-                        if(e[i].disabled && 0 == e[i].value.indexOf('%s')){
-                            r = e[i].value.substr('%s'.length);
-                            e[i].disabled = false;
-                            e[i].focus();
-                            break;
-                        }
-                    }
-                    r;
-                ]=], marker, marker))
-                if "false" ~= n then
-                    f = io.open(n, "r")
-                    s = f:read("*all")
-                    f:close()
-                    print(string.format("%q", s))
-                    w:eval_js(string.format("document.activeElement.value = %q;", s:sub(1, -2)))
-                end
-            else
-                print("Editor exited with status: " .. exit_status)
-            end
+            f = io.open(file, "r")
+            s = f:read("*all")
+            f:close()
+            s = s:gsub("^%s*(.-)%s*$", "%1"):gsub("\n", "\\n"):gsub("'", "\\'")
+            w:eval_js(string.format([=[
+                var e = document.getElementsByClassName('%s%s');
+                if(1 == e.length && e[0].disabled){
+                    e[0].value = "%s";
+                    e[0].disabled = false;
+                    e[0].focus();
+                }
+            ]=], marker, time, s))
         end
-
-        local n = dir .. file
 
         local s = w:eval_js(string.format([=[
             var e = document.activeElement;
-            if(e && e.tagName && e.tagName == 'TEXTAREA'){
+            if(e && (e.tagName && 'TEXTAREA' == e.tagName || e.type && 'text' == e.type)){
                 var s = e.value;
-                e.value = '%s%s';
                 e.disabled = true;
+                e.className += " %s%s";
+                e.value = 'This element is currently being edited in Vim, file: %s';
                 s;
-            }else{
-                "false";
-            }
-        ]=], marker, n))
+            }else 'false';
+        ]=], marker, time, file))
         if "false" ~= s then
-            local f = io.open(n, "w")
+            local f = io.open(file, "w")
             f:write(s)
             f:flush()
             f:close()
-            luakit.spawn("urxvt -e vi -c \"set spell\" \"" .. n .. "\"", editor_callback)
+            luakit.spawn("urxvt -e vi -c \"set spell\" \"" .. file .. "\"", editor_callback)
         end
     end),
 })
