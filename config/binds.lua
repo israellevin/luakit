@@ -247,20 +247,57 @@ add_binds("insert", {
 
     -- *qwertyboy* External editor
     key({"Control"},  "e",       function (w)
-        local s = w:eval_js("document.activeElement.value")
-        local n = "/root/" .. os.time()
-        local f = io.open(n, "w")
-        f:write(s)
-        f:flush()
-        f:close()
-        luakit.spawn_sync("urxvt -e vi -c \"set spell\" \"" .. n .. "\"")
-        f = io.open(n, "r")
-        s = f:read("*all")
-        f:close()
-        s = s:sub(0, -2):gsub("\n", "\\n"):gsub("'", "\\'")
-        w:eval_js("document.activeElement.value = '" .. s .. "'")
-    end),
+        local dir = "/root/"
+        local marker = "Edited in Vim - file: "
+        local file = os.time()
+        local function editor_callback(exit_reason, exit_status)
+            if exit_reason == "exit" then
+                local n = w:eval_js(string.format([=[
+                    var e = document.getElementsByTagName('TEXTAREA');
+                    var r = 'false';
+                    for(i in e){
+                        if(e[i].disabled && 0 == e[i].value.indexOf('%s')){
+                            r = e[i].value.substr('%s'.length);
+                            e[i].disabled = false;
+                            e[i].focus();
+                            break;
+                        }
+                    }
+                    r;
+                ]=], marker, marker))
+                if "false" ~= n then
+                    f = io.open(n, "r")
+                    s = f:read("*all")
+                    f:close()
+                    print(string.format("%q", s))
+                    w:eval_js(string.format("document.activeElement.value = %q;", s:sub(1, -2)))
+                end
+            else
+                print("Editor exited with status: " .. exit_status)
+            end
+        end
 
+        local n = dir .. file
+
+        local s = w:eval_js(string.format([=[
+            var e = document.activeElement;
+            if(e && e.tagName && e.tagName == 'TEXTAREA'){
+                var s = e.value;
+                e.value = '%s%s';
+                e.disabled = true;
+                s;
+            }else{
+                "false";
+            }
+        ]=], marker, n))
+        if "false" ~= s then
+            local f = io.open(n, "w")
+            f:write(s)
+            f:flush()
+            f:close()
+            luakit.spawn("urxvt -e vi -c \"set spell\" \"" .. n .. "\"", editor_callback)
+        end
+    end),
 })
 
 add_binds({"command", "search"}, {
