@@ -57,7 +57,7 @@ reverse_labels = true
 selectors = {
     followable  = 'a, area, textarea, select, input:not([type=hidden]), button',
     focusable   = 'a, area, textarea, select, input:not([type=hidden]), button, body, applet, object',
-    uri         = 'a, area, body',
+    uri         = 'a, area',
     desc        = '*[title], img[alt], applet[alt], area[alt], input[alt]',
     image       = 'img, input[type=image]',
 }
