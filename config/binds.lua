@@ -247,41 +247,48 @@ add_binds("insert", {
 
     -- *qwertyboy* External editor
     key({"Control"},  "e",       function (w)
+        local editor = "urxvt -e vi -c 'set spell'"
         local dir = "/root/"
-        local marker = "luakit_extedit_"
         local time = os.time()
         local file = dir .. time
+        local marker = "luakit_extedit_" .. time
         local function editor_callback(exit_reason, exit_status)
             f = io.open(file, "r")
             s = f:read("*all")
             f:close()
-            s = s:gsub("^%s*(.-)%s*$", "%1"):gsub("\n", "\\n"):gsub("'", "\\'")
+            -- Strip the string
+            s = s:gsub("^%s*(.-)%s*$", "%1")
+            -- Escape it but remove the quotes
+            s = string.format("%q", s):sub(2, -2)
+            -- lua escaped newlines (slash+newline) into js newlines (slash+n)
+            s = s:gsub("\\\n", "\\n")
             w:eval_js(string.format([=[
-                var e = document.getElementsByClassName('%s%s');
+                var e = document.getElementsByClassName('%s');
                 if(1 == e.length && e[0].disabled){
+                    e[0].focus();
                     e[0].value = "%s";
                     e[0].disabled = false;
-                    e[0].focus();
+                    e[0].className = e[0].className.replace(/\b %s\b/,'');
                 }
-            ]=], marker, time, s))
+            ]=], marker, s, marker))
         end
 
         local s = w:eval_js(string.format([=[
             var e = document.activeElement;
             if(e && (e.tagName && 'TEXTAREA' == e.tagName || e.type && 'text' == e.type)){
                 var s = e.value;
+                e.className += " %s";
                 e.disabled = true;
-                e.className += " %s%s";
-                e.value = 'This element is currently being edited in Vim, file: %s';
+                e.value = '%s';
                 s;
             }else 'false';
-        ]=], marker, time, file))
+        ]=], marker, file))
         if "false" ~= s then
             local f = io.open(file, "w")
             f:write(s)
             f:flush()
             f:close()
-            luakit.spawn("urxvt -e vi -c \"set spell\" \"" .. file .. "\"", editor_callback)
+            luakit.spawn(string.format("%s %q", editor, file), editor_callback)
         end
     end),
 })
