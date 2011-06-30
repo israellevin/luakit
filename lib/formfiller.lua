@@ -25,7 +25,8 @@ add_binds("normal", {
     buf("^za$", function (w) w:formfiller("add")  end),
     buf("^zn$", function (w) w:formfiller("new")  end),
     buf("^ze$", function (w) w:formfiller("edit") end),
-    buf("^zl$", function (w) w:formfiller("load") end),
+    -- *qwertyboy* Switch to insert mode after filling
+    buf("^zl$", function (w) w:formfiller("load") w:set_mode("insert") end),
 })
 
 -- Javascript functions
