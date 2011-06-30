@@ -55,7 +55,7 @@ reverse_labels = true
 --- Selectors for the different modes.
 -- body selects frames (this is special magic to avoid cross-domain problems)
 selectors = {
-    followable  = 'a, area, textarea, select, input:not([type=hidden]), button',
+    followable  = 'a, area, textarea, select, link, input:not([type=hidden]), button, frame, iframe, *[onclick], *[onmousedown], *[role=link]',
     focusable   = 'a, area, textarea, select, input:not([type=hidden]), button, body, applet, object',
     uri         = 'a, area',
     desc        = '*[title], img[alt], applet[alt], area[alt], input[alt]',
