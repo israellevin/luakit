@@ -147,14 +147,14 @@ add_binds("normal", {
     key({},          "v",           function (w)    local uri = (w:get_current() or {}).uri if uri then luakit.spawn("/root/scripts/webvidplay.sh '" .. uri .. "'") end end),
 
     -- Zooming
-    key({},          "+",           function (w, m)    w:zoom_in(zoom_step  * m.count)       end, {count=1}),
-    key({},          "-",           function (w, m)    w:zoom_out(zoom_step * m.count)       end, {count=1}),
+    key({},          "+",           function (w, m)    w:zoom_in(zoom_step  * m.count, true)       end, {count=1}),
+    key({},          "-",           function (w, m)    w:zoom_out(zoom_step * m.count, true)       end, {count=1}),
     key({},          "*",           function (w, m)    w:set("full-content-zoom", not w:get("full-content-zoom"))  end),
     key({},          "=",           function (w, m)    w:zoom_set() end),
-    buf("^z[iI]$",                  function (w, b, m) w:zoom_in(zoom_step  * m.count, b == "zI") end, {count=1}),
-    buf("^z[oO]$",                  function (w, b, m) w:zoom_out(zoom_step * m.count, b == "zO") end, {count=1}),
+    buf("^z[iI]$",                  function (w, b, m) w:zoom_in(zoom_step  * m.count, b == "zi") end, {count=1}),
+    buf("^z[oO]$",                  function (w, b, m) w:zoom_out(zoom_step * m.count, b == "zo") end, {count=1}),
     -- Zoom reset or specific zoom ([count]zZ for full content zoom)
-    buf("^z[zZ]$",                  function (w, b, m) w:zoom_set(m.count/100, b == "zZ") end, {count=100}),
+    buf("^z[zZ]$",                  function (w, b, m) w:zoom_set(m.count/100, b == "zz") end, {count=200}),
 
     -- Clipboard
     key({},          "p",           function (w)
