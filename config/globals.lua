@@ -74,6 +74,9 @@ domain_props = {
         ["enable-scripts"]          = true,
         ["enable-plugins"]          = false,
     },
+    ["mail.google.com"] = {
+        ["user-stylesheet-uri"]     = "file:///root/.config/luakit/gmail.css",
+    },
 --[[
     ["all"] = {
         ["enable-scripts"]          = false,
