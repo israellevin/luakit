@@ -235,6 +235,35 @@ webview.init_funcs = {
             -- Return false to cancel the request.
         end)
     end,
+
+    unfocus_dim = function (view, w)
+        view:add_signal("unfocus-dis", function (v)
+            w:eval_js([[
+                if(!document.getElementById('luakit_unfocus_dimmer')){
+                    var e = document.createElement('div');
+                    e.id = 'luakit_unfocus_dimmer';
+                    e.style.background = 'black';
+                    e.style.width = '100%';
+                    e.style.height = '100%';
+                    e.style.position = 'fixed';
+                    e.style.top = '0px';
+                    e.style.right = '0px';
+                    e.style.z_index = '999';
+                    e.style.opacity = '0.7';
+                    document.body.appendChild(e);
+                }
+            ]])
+        end)
+    end,
+
+    focus_undim = function (view, w)
+        view:add_signal("focus-dis", function (v)
+            w:eval_js([[
+                var e = document.getElementById('luakit_unfocus_dimmer');
+                if(e) document.body.removeChild(e);
+            ]])
+        end)
+    end,
 }
 
 -- These methods are present when you index a window instance and no window

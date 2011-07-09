@@ -621,8 +621,8 @@ add_binds("normal", {
     -- *qwertyboy* stacked windows, really.
     buf("^;F$", function (w,b,m)
         w:start_follow("uri", "multi tab", function (uri, s)
+            luakit.spawn("xdotool key super+a")
             luakit.spawn("luakit " ..uri)
-            luakit.spawn("xdotool key --delay 200 super+Return")
             w:set_mode("follow")
         end)
     end),
@@ -679,8 +679,8 @@ add_binds("normal", {
     -- *qwertyboy* as a new process and push it to the stack
     buf("^F$", function (w,b,m)
         w:start_follow("uri", "open window", function (uri)
+            luakit.spawn("xdotool key super+a")
             luakit.spawn("luakit " ..uri)
-            luakit.spawn("xdotool key --delay 200 super+Return")
             return "root-active"
         end)
     end),
