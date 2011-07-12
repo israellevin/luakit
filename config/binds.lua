@@ -68,7 +68,7 @@ add_binds("all", {
             if uri then
                 --w:new_tab(uri, false)
                 luakit.spawn("xdotool key super+a")
-                window.new{uri}
+                luakit.spawn("luakit " ..uri)
             else -- Open selection in current tab
                 uri = luakit.get_selection()
                 if uri then w:navigate(w:search_open(uri)) end
