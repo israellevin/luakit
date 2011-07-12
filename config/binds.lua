@@ -83,6 +83,10 @@ add_binds("all", {
             w:new_tab(uri, false)
         end
     end),
+
+    -- Zoom binds
+    but({"Control"}, 4, function (w, m) w:zoom_in()  end),
+    but({"Control"}, 5, function (w, m) w:zoom_out() end),
 })
 
 add_binds("normal", {
@@ -175,8 +179,9 @@ add_binds("normal", {
                                     end),
 
     buf("^yt$",                     function (w)
-                                        luakit.set_selection(w.win.title)
-                                        w:notify("Yanked title: " .. w.win.title)
+                                        local title = w:get_current():get_property("title")
+                                        luakit.set_selection(title)
+                                        w:notify("Yanked title: " .. title)
                                     end),
 
     -- Commands
