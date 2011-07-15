@@ -87,6 +87,10 @@ add_binds("all", {
     -- Zoom binds
     but({"Control"}, 4, function (w, m) w:zoom_in(zoom_step, true)  end),
     but({"Control"}, 5, function (w, m) w:zoom_out(zoom_step, true) end),
+
+    -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
+    but({},          4, function (w, m) w:scroll_vert(less)  end),
+    but({},          5, function (w, m) w:scroll_vert(more) end),
 })
 
 add_binds("normal", {
