@@ -85,8 +85,12 @@ add_binds("all", {
     end),
 
     -- Zoom binds
-    but({"Control"}, 4, function (w, m) w:zoom_in(zoom_step, true)  end),
-    but({"Control"}, 5, function (w, m) w:zoom_out(zoom_step, true) end),
+    but({"Control"}, 4, function (w, m) w:zoom_in()  end),
+    but({"Control"}, 5, function (w, m) w:zoom_out() end),
+
+    -- Horizontal mouse scroll binds
+    but({"Shift"},   4, function (w, m) w:scroll_horiz(less) end),
+    but({"Shift"},   5, function (w, m) w:scroll_horiz(more) end),
 
     -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
     but({},          4, function (w, m) w:scroll_vert(less)  end),
