@@ -91,10 +91,6 @@ add_binds("all", {
     -- Horizontal mouse scroll binds
     but({"Shift"},   4, function (w, m) w:scroll_horiz(less) end),
     but({"Shift"},   5, function (w, m) w:scroll_horiz(more) end),
-
-    -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
-    but({},          4, function (w, m) w:scroll_vert(less)  end),
-    but({},          5, function (w, m) w:scroll_vert(more) end),
 })
 
 add_binds("normal", {
@@ -157,6 +153,10 @@ add_binds("normal", {
     key({"Control"}, "p",           function (w) domain_props.all["enable-plugins"] = true; w:reload() end),
     key({"Control"}, "P",           function (w) domain_props.all["enable-plugins"] = false; w:reload() end),
     key({},          "v",           function (w)    local uri = (w:get_current() or {}).uri if uri then luakit.spawn("/root/scripts/webvidplay.sh '" .. uri .. "'") end end),
+
+    -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
+    but({},          4, function (w, m) w:scroll_vert(less)  end),
+    but({},          5, function (w, m) w:scroll_vert(more) end),
 
     -- Zooming
     key({},          "+",           function (w, m)    w:zoom_in(zoom_step  * m.count, true)       end, {count=1}),
