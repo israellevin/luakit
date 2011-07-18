@@ -84,14 +84,10 @@ webview.init_funcs = {
         view:add_signal("link-hover", function (v, link)
             if w:is_current(v) and link then
                 w:update_uri(v, nil, link)
-                w.sbar.ebox:show()
-                w.sbar.hidden = false
             end
         end)
         view:add_signal("link-unhover", function (v)
             if w:is_current(v) then
-                w.sbar.ebox:hide()
-                w.sbar.hidden = true
                 w:update_uri(v)
             end
         end)
