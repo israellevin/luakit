@@ -166,7 +166,7 @@ add_binds("normal", {
     buf("^z[iI]$",                  function (w, b, m) w:zoom_in(zoom_step  * m.count, b == "zi") end, {count=1}),
     buf("^z[oO]$",                  function (w, b, m) w:zoom_out(zoom_step * m.count, b == "zo") end, {count=1}),
     -- Zoom reset or specific zoom ([count]zZ for full content zoom)
-    buf("^z[zZ]$",                  function (w, b, m) w:zoom_set(m.count/100, b == "zz") end, {count=200}),
+    buf("^z[zZ]$",                  function (w, b, m) w:zoom_set(m.count, b == "zz") end, {count=2}),
 
     -- Clipboard
     key({},          "p",           function (w)
