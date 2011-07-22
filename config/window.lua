@@ -588,6 +588,12 @@ window.methods = {
     end,
 
     new_tab = function (w, arg, switch, order)
+
+        -- *qwertybpy* One tab per page
+        if w.tabs:count() == 1 then
+            luakit.spawn("luakit " ..arg)
+        else
+
         local view
         -- Use blank tab first
         if w.has_blank and w.tabs:count() == 1 and w.tabs:atindex(1).uri == "about:blank" then
@@ -620,6 +626,7 @@ window.methods = {
         w:update_tab_count()
         w:update_tablist()
         return view
+        end
     end,
 
     -- close the current tab

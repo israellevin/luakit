@@ -12,6 +12,9 @@ local downloads = require "downloads"
 local capi = { luakit = luakit }
 local modes = require "follow.modes"
 
+-- *qwertyboy* For background windows
+local luakit = luakit
+
 module "follow.binds"
 
 -- Add link following binds
@@ -27,7 +30,7 @@ add_binds("normal", {
     end),
 
     -- Open new tab (optionally [count] times)
-    buf("^F$", function (w,b,m)
+    buf("^mt$", function (w,b,m)
         local name
         if (m.count or 0) > 1 then name = "open "..m.count.." tabs(s)" end
         w:start_follow(modes.uri, name or "open tab", function (uri, s)
@@ -56,6 +59,7 @@ add_binds("normal", {
     -- Follow a sequence of <CR> delimited hints in background tabs.
     buf("^;F$", function (w,b,m)
         w:start_follow(modes.uri, "multi tab", function (uri, s)
+            luakit.spawn("xdotool key super+a")
             w:new_tab(uri, false)
             w:set_mode("follow") -- re-enter follow mode with same state
         end)
@@ -80,6 +84,7 @@ add_binds("normal", {
     -- Open image src in new tab
     buf("^;I$", function (w,b,m)
         w:start_follow(modes.image, "tab image", function (src)
+            luakit.spawn("xdotool key super+a")
             w:new_tab(src)
             return "root-active"
         end)
@@ -102,8 +107,9 @@ add_binds("normal", {
     end),
 
     -- Open link in background tab
-    buf("^;b$", function (w,b,m)
+    buf("^F$", function (w,b,m)
         w:start_follow(modes.uri, "open bg tab", function (uri)
+            luakit.spawn("xdotool key super+a")
             w:new_tab(uri, false)
             return "root-active"
         end)
