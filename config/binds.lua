@@ -151,6 +151,7 @@ add_binds("normal", {
     key({},          "t",           function (w) if true == w.sbar.hidden then w.sbar.ebox:show() w.sbar.hidden = false else w.sbar.ebox:hide() w.sbar.hidden = true end end),
     key({"Control"}, "p",           function (w) domain_props.all["enable-plugins"] = true; w:reload() end),
     key({"Control"}, "P",           function (w) domain_props.all["enable-plugins"] = false; w:reload() end),
+    key({"Control"}, "g",           function (w) w.tabs:atindex(w.tabs:current()):set_property('user-agent', "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.71 Safari/534.24") w:reload() end),
     key({},          "v",           function (w)    local uri = (w:get_current() or {}).uri if uri then luakit.spawn("/root/scripts/webvidplay.sh '" .. uri .. "'") end end),
 
     -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
