@@ -127,8 +127,8 @@ add_binds("normal", {
     key({"Control"}, "u",           function (w) w:scroll_page(-0.5)  end),
     key({"Control"}, "f",           function (w) w:scroll_page(1.0)   end),
     key({"Control"}, "b",           function (w) w:scroll_page(-1.0)  end),
-    key({},          "space",       function (w) w:scroll_page(1.0)   end),
-    key({"Shift"},   "space",       function (w) w:scroll_page(-1.0)  end),
+    key({},          "space",       function (w) w:scroll_page(0.95)   end),
+    key({"Shift"},   "space",       function (w) w:scroll_page(-0.95)  end),
     key({},          "BackSpace",   function (w) w:scroll_page(-1.0)  end),
 
     -- Specific scroll

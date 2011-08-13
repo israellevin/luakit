@@ -35,7 +35,7 @@ normal = {
 
 -- Focus the element.
 focus = {
-    selector  = 'body',
+    selector  = 'body, embed',
     evaluator = [=[function (element) {
         element.focus();
         if (follow.isEditable(element)) {
