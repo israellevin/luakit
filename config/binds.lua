@@ -155,8 +155,8 @@ add_binds("normal", {
     key({},          "v",           function (w)    local uri = (w:get_current() or {}).uri if uri then luakit.spawn("/root/scripts/webvidplay.sh '" .. uri .. "'") end end),
 
     -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
-    but({},          4, function (w, m) w:scroll_vert(less)  end),
-    but({},          5, function (w, m) w:scroll_vert(more) end),
+--    but({},          4, function (w, m) w:scroll_vert(less)  end),
+--    but({},          5, function (w, m) w:scroll_vert(more) end),
 
     -- Zooming
     key({},          "+",           function (w, m)    w:zoom_in(zoom_step  * m.count, true)       end, {count=1}),
@@ -323,6 +323,17 @@ add_binds({"command", "search"}, {
     key({"Control"}, "b",       function (w) w:backward_char() end),
     key({"Mod1"},    "f",       function (w) w:forward_word() end),
     key({"Mod1"},    "b",       function (w) w:backward_word() end),
+})
+
+add_binds("passthrough", {
+    key({},          "Escape",  function (w)
+
+            w:eval_js([=[
+                var evt = document.createEvent("KeyboardEvent");
+                evt.initKeyboardEvent('keypress', true, true, window, false, false, false, false, 65, 65);
+                window.dispatchEvent(evt);
+            ]=])
+    end),
 })
 
 -- Switching tabs with Mod1+{1,2,3,...}
