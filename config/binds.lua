@@ -14,7 +14,6 @@ local strip, split = lousy.util.string.strip, lousy.util.string.split
 local scroll_step = globals.scroll_step or 20
 local more, less = "+"..scroll_step.."px", "-"..scroll_step.."px"
 local zoom_step = globals.zoom_step or 0.1
-local homepage = globals.homepage or "http://luakit.org"
 
 -- Add binds to a mode
 function add_binds(mode, binds, before)
@@ -190,12 +189,14 @@ add_binds("normal", {
     buf("^yy$",                     function (w)
                                         local uri = string.gsub(w:get_current().uri or "", " ", "%%20")
                                         luakit.set_selection(uri)
+                                        luakit.set_selection("clipboard", uri)
                                         w:notify("Yanked uri: " .. uri)
                                     end),
 
     buf("^yt$",                     function (w)
                                         local title = w:get_current():get_property("title")
                                         luakit.set_selection(title)
+                                        luakit.set_selection("clipboard", title)
                                         w:notify("Yanked title: " .. title)
                                     end),
 
@@ -229,7 +230,7 @@ add_binds("normal", {
     buf("^gT$",                     function (w, b, m) w:prev_tab(m.count) end, {count=1}),
     buf("^gt$",                     function (w, b, m) if not w:goto_tab(m.count) then w:next_tab() end end, {count=0}),
 
-    key({"Control"}, "t",           function (w)    w:new_tab(homepage) end),
+    key({"Control"}, "t",           function (w)    w:new_tab(globals.homepage) end),
     key({"Control"}, "w",           function (w)    w:close_tab()       end),
     key({},          "D",           function (w, m) for i=1,m.count do w:close_tab()      end end, {count=1}),
 
@@ -238,7 +239,7 @@ add_binds("normal", {
     key({"Mod1"},    "Page_Up",     function (w, m) w.tabs:reorder(w:get_current(), w.tabs:current() - m.count) end, {count=1}),
     key({"Mod1"},    "Page_Down",   function (w, m) w.tabs:reorder(w:get_current(), (w.tabs:current() + m.count) % w.tabs:count()) end, {count=1}),
 
-    buf("^gH$",                     function (w, b, m) for i=1,m.count do w:new_tab(homepage) end end, {count=1}),
+    buf("^gH$",                     function (w, b, m) for i=1,m.count do w:new_tab("http://google.com/ig") end end, {count=1}),
     buf("^gh$",                     function (w)       w:navigate("http://google.com/ig") end),
 
     -- Open tab from current tab history
