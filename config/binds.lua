@@ -262,7 +262,6 @@ add_binds("normal", {
 })
 
 add_binds("insert", {
-    key({"Control"}, "z",           function (w) w:set_mode("passthrough") end),
 
     -- *qwertyboy* External editor
     key({"Control"},  "e",       function (w)
@@ -324,17 +323,6 @@ add_binds({"command", "search"}, {
     key({"Control"}, "b",       function (w) w:backward_char() end),
     key({"Mod1"},    "f",       function (w) w:forward_word() end),
     key({"Mod1"},    "b",       function (w) w:backward_word() end),
-})
-
-add_binds("passthrough", {
-    key({},          "Escape",  function (w)
-
-            w:eval_js([=[
-                var evt = document.createEvent("KeyboardEvent");
-                evt.initKeyboardEvent('keypress', true, true, window, false, false, false, false, 65, 65);
-                window.dispatchEvent(evt);
-            ]=])
-    end),
 })
 
 -- Switching tabs with Mod1+{1,2,3,...}
