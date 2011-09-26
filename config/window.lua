@@ -480,7 +480,7 @@ window.methods = {
         if label.text ~= text then label.text = text end
 
         -- *qwertyboy* Add scroll text to window title
-        local title = w.view:get_property("title")
+        local title = w.view.title
         local uri = w.view.uri
         w.win.title = text .. " - " .. (title or "luakit") .. " - " .. (uri or "about:blank")
 
