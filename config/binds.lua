@@ -162,7 +162,7 @@ add_binds("normal", {
     -- Zooming
     key({},          "+",           function (w, m)    w:zoom_in(zoom_step  * m.count, true)       end, {count=1}),
     key({},          "-",           function (w, m)    w:zoom_out(zoom_step * m.count, true)       end, {count=1}),
-    key({},          "*",           function (w, m)    w:set("full-content-zoom", not w:get("full-content-zoom"))  end),
+    key({},          "*",           function (w, m)    w.view.full_content_zoom = not w.view.full_content_zoom  end),
     key({},          "=",           function (w, m)    w:zoom_set() end),
     buf("^z[iI]$",                  function (w, b, m) w:zoom_in(zoom_step  * m.count, b == "zi") end, {count=1}),
     buf("^z[oO]$",                  function (w, b, m) w:zoom_out(zoom_step * m.count, b == "zo") end, {count=1}),

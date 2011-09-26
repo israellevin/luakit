@@ -68,13 +68,13 @@ search_engines.default = search_engines.l
 -- See http://webkitgtk.org/reference/webkitgtk-WebKitWebSettings.html
 domain_props = {
     ["all"] = {
-        ["zoom-level"]              = 2,
-        ["full-content-zoom"]       = true,
-        ["enable-scripts"]          = true,
-        ["enable-plugins"]          = false,
+        ["zoom_level"]              = 2,
+        ["full_content_zoom"]       = true,
+        ["enable_scripts"]          = true,
+        ["enable_plugins"]          = false,
     },
     ["mail.google.com"] = {
-        ["user-stylesheet-uri"]     = "file:///root/.config/luakit/gmail.css",
+        ["user_stylesheet_uri"]     = "file:///root/.config/luakit/gmail.css",
     },
 --[[
     ["all"] = {
