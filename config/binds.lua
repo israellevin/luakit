@@ -232,7 +232,7 @@ add_binds("normal", {
 
     key({"Control"}, "t",           function (w)    w:new_tab(globals.homepage) end),
     key({"Control"}, "w",           function (w)    w:close_tab()       end),
-    key({},          "D",           function (w, m) for i=1,m.count do w:close_tab()      end end, {count=1}),
+    --key({},          "D",           function (w, m) for i=1,m.count do w:close_tab()      end end, {count=1}),
 
     key({},          "<",           function (w, m) w.tabs:reorder(w.view, w.tabs:current() - m.count) end, {count=1}),
     key({},          ">",           function (w, m) w.tabs:reorder(w.view, (w.tabs:current() + m.count) % w.tabs:count()) end, {count=1}),
