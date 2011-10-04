@@ -1,6 +1,6 @@
 -- Global variables for luakit
 globals = {
-    homepage            = "http://luakit.org/",
+    homepage            = "about:blank",
  -- homepage            = "http://github.com/mason-larobina/luakit",
     scroll_step         = 40,
     zoom_step           = 0.1,
@@ -51,23 +51,27 @@ soup.accept_policy = cookie_policy.always
 -- it to avoid collisions with lua's string.format characters.
 -- See: http://www.lua.org/manual/5.1/manual.html#pdf-string.format
 search_engines = {
-    luakit      = "http://luakit.org/search/index/luakit?q=%s",
-    google      = "http://google.com/search?q=%s",
-    duckduckgo  = "http://duckduckgo.com/?q=%s",
-    wikipedia   = "http://en.wikipedia.org/wiki/Special:Search?search=%s",
-    debbugs     = "http://bugs.debian.org/%s",
-    imdb        = "http://imdb.com/find?s=all&q=%s",
-    sourceforge = "http://sf.net/search/?words=%s",
+    g           = "http://google.com/search?q=%s",
+    l           = "http://google.com/search?q=%s&btnI=I'm+Feeling+Lucky",
+    w           = "http://en.wikipedia.org/wiki/Special:Search?search=%s",
+    d           = "http://dictionary.reference.com/browse/%s",
+    s           = "http://duckduckgo.com/?q=%s",
+    sl          = "http://duckduckgo.com/?q=! %s",
 }
 
 -- Set google as fallback search engine
-search_engines.default = search_engines.google
+search_engines.default = search_engines.l
 -- Use this instead to disable auto-searching
 --search_engines.default = "%s"
 
 -- Per-domain webview properties
 -- See http://webkitgtk.org/reference/webkitgtk-WebKitWebSettings.html
-domain_props = { --[[
+domain_props = {
+    ["all"] = {
+        ["zoom_level"]              = 2,
+        ["full_content_zoom"]       = true,
+    },
+--[[
     ["all"] = {
         enable_scripts          = false,
         enable_plugins          = false,
