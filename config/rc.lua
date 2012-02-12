@@ -69,6 +69,9 @@ require "cookies"
 -- Add uzbl-like form filling
 require "formfiller"
 
+-- Add webinspector
+require "webinspector"
+
 -- Add proxy support & manager
 require "proxy"
 
@@ -124,6 +127,13 @@ require "completion"
 -- Remove all "enable_scripts" & "enable_plugins" lines from your
 -- domain_props table (in config/globals.lua) as this module will conflict.
 --require "noscript"
+
+require "autozoom"
+autozoom.level   = 1.0
+autozoom.text    = "(zoom:{level}%,{full_content})"
+autozoom.visible = "non-default"
+--autozoom.full_content = true
+--autozoom.autowrite = false
 
 require "follow_selected"
 require "go_input"
