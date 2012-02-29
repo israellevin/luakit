@@ -65,7 +65,7 @@ add_binds("all", {
             local uri = w.view.hovered_uri
             if uri then
                 -- *qwertyboy* Tell DWM to open in background with xdotool
-                luakit.spawn("xdotool key super+a")
+                luakit.spawn("xdotool key super+a &")
                 w:new_tab(uri, false)
             else -- Open selection in current tab
                 uri = luakit.selection.primary
@@ -153,7 +153,7 @@ add_binds("normal", {
     key({"Control"}, "p",           function (w) domain_props.all["enable_plugins"] = true; w:reload() end),
     key({"Control"}, "P",           function (w) domain_props.all["enable_plugins"] = false; w:reload() end),
     key({"Control"}, "g",           function (w) w.tabs[w.tabs:current()].user_agent = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.71 Safari/534.24" end),
-    key({},          "v",           function (w) luakit.spawn("/root/scripts/webvidplay.sh '" .. w.view.uri .. "'") end),
+    key({},          "v",           function (w) luakit.spawn("/root/bin/webvidplay.sh '" .. w.view.uri .. "'") end),
 
     -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
 --    but({},          4, function (w, m) w:scroll_vert(less)  end),

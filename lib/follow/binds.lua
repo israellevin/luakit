@@ -61,7 +61,7 @@ add_binds("normal", {
     -- Follow a sequence of <CR> delimited hints in background tabs.
     buf("^;F$", function (w,b,m)
         w:start_follow(modes.uri, "multi tab", function (uri, s)
-            luakit.spawn("xdotool key super+a")
+            luakit.spawn("xdotool key super+a &")
             w:new_tab(uri, false)
             w:set_mode("follow") -- re-enter follow mode with same state
         end)
@@ -94,7 +94,7 @@ add_binds("normal", {
     -- Open image src in new tab
     buf("^;I$", function (w,b,m)
         w:start_follow(modes.image, "tab image", function (src)
-            luakit.spawn("xdotool key super+a")
+            luakit.spawn("xdotool key super+a &")
             w:new_tab(src)
             return "root-active"
         end)
@@ -119,7 +119,7 @@ add_binds("normal", {
     -- Open link in background tab
     buf("^F$", function (w,b,m)
         w:start_follow(modes.uri, "open bg tab", function (uri)
-            luakit.spawn("xdotool key super+a")
+            luakit.spawn("xdotool key super+a &")
             w:new_tab(uri, false)
             return "root-active"
         end)
