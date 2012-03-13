@@ -153,7 +153,7 @@ add_binds("normal", {
     key({"Control"}, "p",           function (w) domain_props.all["enable_plugins"] = true; w:reload() end),
     key({"Control"}, "P",           function (w) domain_props.all["enable_plugins"] = false; w:reload() end),
     key({"Control"}, "g",           function (w) w.tabs[w.tabs:current()].user_agent = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.71 Safari/534.24" end),
-    key({},          "v",           function (w) luakit.spawn("/root/bin/webvidplay.sh '" .. w.view.uri .. "'") end),
+    key({},          "v",           function (w) luakit.spawn("webvidplay.sh '" .. w.view.uri .. "'") end),
 
     -- *qwertyboy* Scroll binds, because native scroll wheel scrolling fucks up the reported scroll
 --    but({},          4, function (w, m) w:scroll_vert(less)  end),
@@ -232,15 +232,15 @@ add_binds("normal", {
 
     key({"Control"}, "t",           function (w)    w:new_tab(globals.homepage) end),
     key({"Control"}, "w",           function (w)    w:close_tab()       end),
-    --key({},          "D",           function (w, m) for i=1,m.count do w:close_tab()      end end, {count=1}),
+    key({},          "D",           function (w, m) for i=1,m.count do w:close_tab()      end end, {count=1}),
 
     key({},          "<",           function (w, m) w.tabs:reorder(w.view, w.tabs:current() - m.count) end, {count=1}),
     key({},          ">",           function (w, m) w.tabs:reorder(w.view, (w.tabs:current() + m.count) % w.tabs:count()) end, {count=1}),
     key({"Mod1"},    "Page_Up",     function (w, m) w.tabs:reorder(w.view, w.tabs:current() - m.count) end, {count=1}),
     key({"Mod1"},    "Page_Down",   function (w, m) w.tabs:reorder(w.view, (w.tabs:current() + m.count) % w.tabs:count()) end, {count=1}),
 
-    buf("^gH$",                     function (w, b, m) for i=1,m.count do w:new_tab("http://google.com/ig") end end, {count=1}),
-    buf("^gh$",                     function (w)       w:navigate("http://google.com/ig") end),
+    buf("^gH$",                     function (w, b, m) for i=1,m.count do w:new_tab(globals.homepage) end end, {count=1}),
+    buf("^gh$",                     function (w)       w:navigate(globals.homepage) end),
 
     -- Open tab from current tab history
     buf("^gy$",                     function (w) w:new_tab(w.view.history or "") end),
@@ -262,6 +262,7 @@ add_binds("normal", {
 })
 
 add_binds("insert", {
+    key({"Control"}, "z",           function (w) w:set_mode("passthrough") end),
 
     -- *qwertyboy* External editor
     key({"Control"},  "e",       function (w)

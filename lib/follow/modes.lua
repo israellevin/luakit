@@ -10,7 +10,7 @@ module "follow.modes"
 
 -- Click the element.
 normal = {
-    selector  = 'a, area, link, *[role=link], button, *[onclick], *[onmousedown], input:not([type=hidden]), textarea, select',
+    selector  = 'a, area, textarea, select, input:not([type=hidden]), button',
     evaluator = [=[function (element) {
         var tag = element.tagName.toLowerCase();
         if (tag === "input" || tag === "textarea") {
@@ -35,7 +35,7 @@ normal = {
 
 -- Focus the element.
 focus = {
-    selector  = 'body, embed',
+    selector  = 'a, area, textarea, select, input:not([type=hidden]), button, body, applet, object',
     evaluator = [=[function (element) {
         element.focus();
         if (follow.isEditable(element)) {
@@ -48,7 +48,7 @@ focus = {
 
 -- Return the URI.
 uri = {
-    selector  = 'a, area',
+    selector  = 'a, area, body',
     evaluator = [=[function (element) {
         return element.src || element.href || element.location;
     }]=]

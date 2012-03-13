@@ -17,7 +17,6 @@ local function hbox()     return widget{type="hbox"}     end
 local function label()    return widget{type="label"}    end
 local function notebook() return widget{type="notebook"} end
 local function vbox()     return widget{type="vbox"}     end
-local function vpaned()   return widget{type="vpaned"}   end
 
 -- Build and pack window widgets
 function window.build()
@@ -25,8 +24,8 @@ function window.build()
     local w = {
         win    = widget{type="window"},
         ebox   = eventbox(),
-        paned  = vpaned(),
         layout = vbox(),
+        paned  = widget{type="vpaned"},
         tabs   = notebook(),
         -- Tablist widget
         tablist = lousy.widget.tablist(),
@@ -69,8 +68,8 @@ function window.build()
     }
 
     -- Assemble window
-    w.paned:pack1(w.layout)
     w.ebox.child = w.paned
+    w.paned:pack1(w.layout)
     w.win.child = w.ebox
 
     -- Pack tablist
@@ -586,31 +585,30 @@ window.methods = {
         if w.tabs:count() == 1 then
             luakit.spawn("luakit " ..arg)
         else
-
-        local view
-        -- Use blank tab first
-        if w.has_blank and w.tabs:count() == 1 and w.tabs[1].uri == "about:blank" then
-            view = w.tabs[1]
-        end
-        w.has_blank = nil
-        -- Make new webview widget
-        if not view then
-            view = webview.new(w)
-            -- Get tab order function
-            if not order and taborder then
-                order = (switch == false and taborder.default_bg)
-                    or taborder.default
+            local view
+            -- Use blank tab first
+            if w.has_blank and w.tabs:count() == 1 and w.tabs[1].uri == "about:blank" then
+                view = w.tabs[1]
             end
-            pos = w.tabs:insert((order and order(w, view)) or -1, view)
-            if switch ~= false then w.tabs:switch(pos) end
-        end
-        -- Load uri or webview history table
-        if type(arg) == "string" then view.uri = arg
-        elseif type(arg) == "table" then view.history = arg end
-        -- Update statusbar widgets
-        w:update_tab_count()
-        w:update_tablist()
-        return view
+            w.has_blank = nil
+            -- Make new webview widget
+            if not view then
+                view = webview.new(w)
+                -- Get tab order function
+                if not order and taborder then
+                    order = (switch == false and taborder.default_bg)
+                        or taborder.default
+                end
+                pos = w.tabs:insert((order and order(w, view)) or -1, view)
+                if switch ~= false then w.tabs:switch(pos) end
+            end
+            -- Load uri or webview history table
+            if type(arg) == "string" then view.uri = arg
+            elseif type(arg) == "table" then view.history = arg end
+            -- Update statusbar widgets
+            w:update_tab_count()
+            w:update_tablist()
+            return view
         end
     end,
 

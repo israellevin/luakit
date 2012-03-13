@@ -54,11 +54,9 @@ end
 --- Style that uses numbers for the hint labels and matches other text against
 -- the pages elements.
 function numbers_and_labels()
-    -- *qwertyboy* alt charsets require alt regexps
-    local cs = "jfkdgh"
-    local style = charset(cs)
+    local style = charset("0123456789")
     style.parse_input = function (text)
-        return string.match(text, "^(.-)([" .. cs .. "]*)$")
+        return string.match(text, "^(.-)(%d*)$")
     end
     return style
 end

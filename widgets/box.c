@@ -82,7 +82,7 @@ luaH_box_index(lua_State *L, luakit_token_t token)
 
     switch(token)
     {
-      LUAKIT_WIDGET_INDEX_COMMON
+      LUAKIT_WIDGET_INDEX_COMMON(w)
       LUAKIT_WIDGET_CONTAINER_INDEX_COMMON(w)
 
       /* push class methods */
@@ -106,6 +106,8 @@ luaH_box_newindex(lua_State *L, luakit_token_t token)
 
     switch(token)
     {
+      LUAKIT_WIDGET_NEWINDEX_COMMON(w)
+
       case L_TK_HOMOGENEOUS:
         gtk_box_set_homogeneous(GTK_BOX(w->widget), luaH_checkboolean(L, 3));
         break;
@@ -131,7 +133,6 @@ widget_box(widget_t *w, luakit_token_t token)
     w->widget = (token == L_TK_VBOX) ? gtk_vbox_new(FALSE, 0) :
             gtk_hbox_new(FALSE, 0);
 
-    g_object_set_data(G_OBJECT(w->widget), "lua_widget", (gpointer) w);
     g_object_connect(G_OBJECT(w->widget),
       "signal::add",        G_CALLBACK(add_cb),        w,
       "signal::parent-set", G_CALLBACK(parent_set_cb), w,

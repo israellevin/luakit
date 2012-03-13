@@ -30,7 +30,7 @@ add_binds("normal", {
     end),
 
     -- Open new tab (optionally [count] times)
-    buf("^mt$", function (w,b,m)
+    buf("^;f$", function (w,b,m)
         local name
         if (m.count or 0) > 1 then name = "open "..m.count.." tabs" end
         w:start_follow(modes.uri, name or "open tab", function (uri, s)

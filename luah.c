@@ -27,9 +27,8 @@
 #include "clib/soup/soup.h"
 #include "clib/sqlite3.h"
 #include "clib/timer.h"
-#include "clib/inspector.h"
-#include "clib/widget.h"
 #include "clib/unique.h"
+#include "clib/widget.h"
 #include "clib/xdg.h"
 
 #include <glib.h>
@@ -391,9 +390,6 @@ luaH_init(void)
 
     /* Export timer */
     timer_class_setup(L);
-
-    /* Export webview */
-    inspector_class_setup(L);
 
     /* add Lua search paths */
     lua_getglobal(L, "package");
