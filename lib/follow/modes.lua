@@ -10,7 +10,7 @@ module "follow.modes"
 
 -- Click the element.
 normal = {
-    selector  = 'a, area, textarea, select, input:not([type=hidden]), button',
+    selector  = 'a, area, textarea, select, input:not([type=hidden]), button, [onclick]',
     evaluator = [=[function (element) {
         var tag = element.tagName.toLowerCase();
         if (tag === "input" || tag === "textarea") {
@@ -48,7 +48,7 @@ focus = {
 
 -- Return the URI.
 uri = {
-    selector  = 'a, area, body',
+    selector  = 'a',
     evaluator = [=[function (element) {
         return element.src || element.href || element.location;
     }]=]
