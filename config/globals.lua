@@ -68,17 +68,19 @@ search_engines.default = search_engines.sl
 -- See http://webkitgtk.org/reference/WebKitWebSettings.html
 domain_props = {
     ["all"] = {
+        zoom_level = 2,
+        full_content_zoom = true,
+        auto-shrink-images = true,
+        enable-webgl = true,
         enable_scripts = true,
         enable_plugins = false,
         enable_private_browsing = false,
-        auto-shrink-images = true,
-        enable-developer-extras = true,
-        enable-dom-paste = true,
         enable-spell-checking = true,
-        enable-webgl = true,
+        spell-checking-languages = 'en_US,he_IL',
+        enable-dom-paste = true,
         javascript-can-access-clipboard = true,
         javascript-can-open-windows-automatically = true,
-        spell-checking-languages = 'en_US,he_IL',
+        enable-developer-extras = true,
     },
  --[[
     ["youtube.com"] = {
