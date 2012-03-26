@@ -65,24 +65,22 @@ search_engines.default = search_engines.sl
 --search_engines.default = "%s"
 
 -- Per-domain webview properties
--- See http://webkitgtk.org/reference/webkitgtk-WebKitWebSettings.html
+-- See http://webkitgtk.org/reference/WebKitWebSettings.html
 domain_props = {
     ["all"] = {
-        ["zoom_level"]              = 2,
-        ["full_content_zoom"]       = true,
-        ["enable_scripts"]          = true,
-        ["enable_plugins"]          = false,
-    },
-    ["mail.google.com"] = {
-        ["user_stylesheet_uri"]     = "file:///root/.config/luakit/gmail.css",
-    },
---[[
-    ["all"] = {
-        enable_scripts          = false,
-        enable_plugins          = false,
+        enable_scripts = true,
+        enable_plugins = false,
         enable_private_browsing = false,
-        user_stylesheet_uri     = "",
+        auto-shrink-images = true,
+        enable-developer-extras = true,
+        enable-dom-paste = true,
+        enable-spell-checking = true,
+        enable-webgl = true,
+        javascript-can-access-clipboard = true,
+        javascript-can-open-windows-automatically = true,
+        spell-checking-languages = 'en_US,he_IL',
     },
+ --[[
     ["youtube.com"] = {
         enable_scripts = true,
         enable_plugins = true,
