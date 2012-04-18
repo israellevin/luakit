@@ -681,7 +681,8 @@ window.methods = {
         if view then
             local js = string.match(uri, "^javascript:(.+)$")
             if js then
-                return view:eval_js(luakit.uri_decode(js), "(javascript-uri)")
+                return view:eval_js(luakit.uri_decode(js),
+                    "(luakit::navigate)", true)
             end
             view.uri = uri
         else
