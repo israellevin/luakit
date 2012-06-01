@@ -50,8 +50,7 @@ menu_binds = {
 
 -- Add binds to special mode "all" which adds its binds to all modes.
 add_binds("all", {
-    key({},          "Escape",  function (w) w:set_mode() end),
-    key({"Control"}, "[",       function (w) w:set_mode() end),
+    key({"Control"}, "c",       function (w) w:set_mode() end),
 
     -- Mouse bindings
     but({},     8,  function (w) w:back()     end),

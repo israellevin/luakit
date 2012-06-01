@@ -68,7 +68,7 @@ search_engines.default = search_engines.sl
 -- See http://webkitgtk.org/reference/webkitgtk/stable/WebKitWebSettings.html
 domain_props = {
     ["all"] = {
-        zoom_level = 2,
+        zoom_level = 1.3,
         full_content_zoom = true,
         auto_shrink_images = true,
         enable_webgl = true,
